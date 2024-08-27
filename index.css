@@ -1,0 +1,23 @@
+.btn{
+    text-decoration: none;
+    border: 5px solid gold;
+    padding: 5px;
+    border radius: 9px;
+    color: black;
+}
+
+.btn:hover{
+    background-color: silver;
+}
+
+.head{
+    display:inline; margin-right:900px; text-decoration: none;  border: 5px solid gold; padding: 5px; color: black;
+}
+
+@font-face {
+    font-family: Matemasie-Regular;
+    src: url('Matemasie-Regular.ttf');
+}
+body{
+    font-family: Matemasie-Regular;
+}
