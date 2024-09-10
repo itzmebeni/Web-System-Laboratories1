@@ -10,8 +10,8 @@
     background-color: silver;
 }
 
-.head{
-    display:inline; margin-right:900px; text-decoration: none;  border: 5px solid gold; padding: 5px; color: black;
+.head{  
+    display:inline; margin-right:900px; text-decoration: none;  border: 3px solid gold; padding: 10px; color: black;
 }
 
 @font-face {
