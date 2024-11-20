@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    background: url('https://img.freepik.com/free-vector/glowing-musical-pentagram-background-with-sound-notes_1017-31220.jpg?w=1380&t=st=1728983572~exp=1728984172~hmac=83ae35dfe51990ee5c16bda729284aeff8c8eaaed44be8f5a8f89684f805406e') no-repeat center center fixed; /* Background image */
+    background-size: cover; /* Cover the entire background */
+    margin: 0;
+    padding: 20px;
+    color: black; /* Black text */
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    height: 100vh; /* Full viewport height */
+}
+
+.container {
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white container */
+}
+
+h1 {
+    text-align: center;
+}
+
+input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: black; /* Black button */
+    color: white; /* White text for buttons */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Full width for button */
+}
+
+button:hover {
+    background-color: #333; /* Darker shade of black on hover */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center align items vertically */
+    padding: 10px;
+    background: #f9f9f9; /* Light gray for list items */
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+li button {
+    background-color: red; /* Red for delete button */
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px; /* Smaller vertical padding */
+    border-radius: 3px; /* Slightly rounded corners */
+    width: 70px; /* Fixed width for the delete button */
+    text-align: center; /* Center text in the button */
+}
+
+li button:hover {
+    background-color: darkred; /* Darker red on hover */
+}
+
+.item-info {
+    display: flex;
+    justify-content: space-between; /* Distribute space between elements */
+    width: 100%; /* Use full width of the list item */
+}
+
+.item-info strong {
+    margin-right: 5px; /* Add some space between label and text */
+}
