@@ -18,8 +18,11 @@ function addItem() {
     const itemInfo = document.createElement('div');
     itemInfo.classList.add('item-info');
 
-    // Add item and artist text
-    itemInfo.innerHTML = `Name of Song: ${itemText}<br> Artist: ${artistText}`;
+    // Add item and artist text with explicit labels
+    itemInfo.innerHTML = `
+        <div class="song">Music Title: <span class="title">${itemText}</span></div>
+        <div class="artist">Artist Name: <span class="name">${artistText}</span></div>
+    `;
     listItem.appendChild(itemInfo);
 
     const deleteButton = document.createElement('button');
@@ -42,8 +45,19 @@ function searchItems() {
     const items = itemList.getElementsByTagName('li');
 
     for (let i = 0; i < items.length; i++) {
-        const itemText = items[i].firstChild.firstChild.textContent.toLowerCase();
-        const artistText = items[i].firstChild.lastChild.textContent.toLowerCase();
-        items[i].style.display = itemText.includes(searchInput) || artistText.includes(searchInput) ? '' : 'none';
+        const songElement = items[i].querySelector('.title');
+        const songText = songElement.textContent;
+
+        // Reset the original text to remove previous highlights
+        songElement.innerHTML = songText;
+
+        // Apply bold to matching parts in Music Title
+        if (searchInput && songText.toLowerCase().includes(searchInput)) {
+            const regex = new RegExp(`(${searchInput})`, 'gi');
+            songElement.innerHTML = songText.replace(regex, `<span class="bold">$1</span>`);
+            items[i].style.display = ''; // Show the item if it matches the search
+        } else {
+            items[i].style.display = 'none'; // Hide the item if it doesn't match
+        }
     }
 }
