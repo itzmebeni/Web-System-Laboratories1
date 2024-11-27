@@ -85,3 +85,18 @@ li button:hover {
 .item-info strong {
     margin-right: 5px; /* Add some space between label and text */
 }
+
+.bold {
+    font-weight: bold;
+    color: black; /* Optional: Make it visually distinct */
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column; /* Stack title and artist vertically */
+    align-items: flex-start; /* Align text to the left */
+}
+
+.song, .artist {
+    margin: 5px 0;
+}
