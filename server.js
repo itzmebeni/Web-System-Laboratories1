@@ -6,6 +6,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const workoutRoutes = require('./routes/workouts');
 
+
+
 // Express app
 const app = express();
 
@@ -14,18 +16,19 @@ app.use(cors());
 // Middleware to parse form data and JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 // Serve static files from the 'frontend' folder 
-app.use(express.static(path.join(__dirname, '../frontend'))); 
+
 
 // Serve workout.html when accessing the /workout route
 app.get('/workout', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend', 'workouts.html'));  
+    res.sendFile(path.join(__dirname, 'frontend', 'workouts.html'));  
 });
 
 // Handle the root route ('/') and serve HTML file
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend', 'workouts.html'));  
+    res.sendFile(path.join(__dirname, 'frontend', 'workouts.html'));  
 });
 
 // Log requests

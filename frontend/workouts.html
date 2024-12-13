@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        .workout-form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .workout-form input, .workout-form button {
+            width: 100%;
+            padding: 7px;
+            margin: 5px 0;
+            padding-right: 1px;
+        }
+        .workout-list {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .workout-item {
+            background: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .workout-item button {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .workout-item button:hover {
+            background: #c0392b;
+        }
+        .edit-button {
+            background: #3498db;
+            color: #fff;
+            margin-right: 5px;
+        }
+        .edit-button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Workout Tracker</h1>
+
+    <div class="workout-form">
+        <h2>Add a New Workout</h2>
+        <input type="text" id="title" placeholder="Workout Title" required>
+        <input type="number" id="reps" placeholder="Reps" required>
+        <input type="number" id="load" placeholder="Load (kg)" required>
+        <button onclick="addWorkout()">Add Workout</button>
+    </div>
+
+    <div class="workout-list">
+        <h2>Your Workouts</h2>
+        <div id="workouts"></div>
+    </div>
+
+    <script>
+        const API_URL = '/api/workouts';
+
+        // Fetch and display all workouts
+        async function fetchWorkouts() {
+            try {
+                const response = await fetch(API_URL);
+                const workouts = await response.json();
+
+                const workoutsContainer = document.getElementById('workouts');
+                workoutsContainer.innerHTML = '';
+
+                workouts.forEach(workout => {
+                    const workoutElement = document.createElement('div');
+                    workoutElement.className = 'workout-item';
+                    workoutElement.innerHTML = `
+                        <div>
+                            <strong>${workout.title}</strong>
+                            <p>Reps: ${workout.reps}, Load: ${workout.load}kg</p>
+                        </div>
+                        <div>
+                            <button class="edit-button" onclick="editWorkout('${workout._id}', '${workout.title}', ${workout.reps}, ${workout.load})">Edit</button>
+                            <button onclick="deleteWorkout('${workout._id}')">Delete</button>
+                        </div>
+                    `;
+
+                    workoutsContainer.appendChild(workoutElement);
+                });
+            } catch (error) {
+                console.error('Error fetching workouts:', error);
+            }
+        }
+
+        // Add a new workout
+        async function addWorkout() {
+            const title = document.getElementById('title').value;
+            const reps = document.getElementById('reps').value;
+            const load = document.getElementById('load').value;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, reps, load })
+                });
+
+                if (response.ok) {
+                    document.getElementById('title').value = '';
+                    document.getElementById('reps').value = '';
+                    document.getElementById('load').value = '';
+                    fetchWorkouts();
+                } else {
+                    const error = await response.json();
+                    alert(error.error);
+                }
+            } catch (error) {
+                console.error('Error adding workout:', error);
+            }
+        }
+
+        // Delete a workout
+        async function deleteWorkout(id) {
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    fetchWorkouts();
+                } else {
+                    const error = await response.json();
+                    alert(error.error);
+                }
+            } catch (error) {
+                console.error('Error deleting workout:', error);
+            }
+        }
+
+        // Edit a workout
+        async function editWorkout(id, title, reps, load) {
+            const newTitle = prompt('Edit Title:', title);
+            const newReps = prompt('Edit Reps:', reps);
+            const newLoad = prompt('Edit Load (kg):', load);
+
+            if (newTitle && newReps && newLoad) {
+                try {
+                    const response = await fetch(`${API_URL}/${id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ title: newTitle, reps: newReps, load: newLoad })
+                    });
+
+                    if (response.ok) {
+                        fetchWorkouts();
+                    } else {
+                        const error = await response.json();
+                        alert(error.error);
+                    }
+                } catch (error) {
+                    console.error('Error updating workout:', error);
+                }
+            }
+        }
+
+        // Initialize
+        fetchWorkouts();
+    </script>
+</body>
+</html>
